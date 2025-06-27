@@ -28,7 +28,9 @@ var Cfg Config
 func InitConfig() {
 	viper.SetConfigName("config") // 不带扩展名
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".") // 当前目录
+	viper.AddConfigPath(".")     // 当前目录
+	viper.AddConfigPath("../..") // 适用于在 internal/db 测试运行时
+	viper.AddConfigPath("../../config")
 
 	err := viper.ReadInConfig()
 	if err != nil {

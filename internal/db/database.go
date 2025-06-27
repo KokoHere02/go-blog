@@ -6,6 +6,7 @@ import (
 	"github.com/KokoHere02/go-blog/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // var (
@@ -16,17 +17,31 @@ import (
 var DB *gorm.DB
 
 func Init() {
+	// dsn := fmt.Sprintf(
+	// 	"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	// 	config.Cfg.Database.User,
+	// 	config.Cfg.Database.Password,
+	// 	config.Cfg.Database.Host,
+	// 	config.Cfg.Database.Port,
+	// 	config.Cfg.Database.Name,
+	// )
+
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=Asia/Shanghai",
+		config.Cfg.Database.Host,
 		config.Cfg.Database.User,
 		config.Cfg.Database.Password,
-		config.Cfg.Database.Host,
-		config.Cfg.Database.Port,
 		config.Cfg.Database.Name,
+		config.Cfg.Database.Port,
+		"disable",
 	)
 
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true, // ✅ 不自动加 s，使用单数表名
+		},
+	})
 	if err != nil {
 		panic("failed to connect to database: " + err.Error())
 	}
