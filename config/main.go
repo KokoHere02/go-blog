@@ -23,9 +23,9 @@ type DatabaseConfig struct {
 	Name     string
 }
 
-var Cfg Config
+func NewConfig() *Config {
+	cfg := &Config{}
 
-func InitConfig() {
 	viper.SetConfigName("config") // 不带扩展名
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")     // 当前目录
@@ -35,10 +35,13 @@ func InitConfig() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Printf("读取配置失败: %v", err)
+		return cfg
 	}
 
-	err = viper.Unmarshal(&Cfg)
+	err = viper.Unmarshal(&cfg)
 	if err != nil {
 		log.Printf("配置文件解析失败: %v", err)
+		return cfg
 	}
+	return cfg
 }

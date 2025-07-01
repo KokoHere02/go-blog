@@ -25,14 +25,14 @@ func Init() {
 	// 	config.Cfg.Database.Port,
 	// 	config.Cfg.Database.Name,
 	// )
-
+	cfg := config.NewConfig()
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=Asia/Shanghai",
-		config.Cfg.Database.Host,
-		config.Cfg.Database.User,
-		config.Cfg.Database.Password,
-		config.Cfg.Database.Name,
-		config.Cfg.Database.Port,
+		cfg.Database.Host,
+		cfg.Database.User,
+		cfg.Database.Password,
+		cfg.Database.Name,
+		cfg.Database.Port,
 		"disable",
 	)
 
