@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/KokoHere02/go-blog/config"
 	"gorm.io/driver/postgres"
@@ -9,14 +10,8 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// var (
-// 	dsn     = "host=localhost user=admin password=123456 dbname=blog port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-// 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-// )
-
-
 func NewDB() *gorm.DB {
-	cfg := config.New() 
+	cfg := config.NewConfig()
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=Asia/Shanghai",
 		cfg.Database.Host,
