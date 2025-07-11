@@ -1,21 +1,27 @@
 package handler
 
 import (
-	"time"
+	"fmt"
 
-	"github.com/KokoHere02/go-blog/internal/domain"
+	"github.com/KokoHere02/go-blog/config"
 	"github.com/KokoHere02/go-blog/internal/usecase"
 	"github.com/gin-gonic/gin"
 )
 
-func HandlerUser(c *gin.Context) {
-	id := c.Param("id")
-	ur := domain.NewUserRepository()
-	uc := usecase.NewUserUsecase(ur, time.Second*5)
-	user, err := uc.GetUserById(id)
-	if err != nil {
-		c.JSON(500, err)
-		return
+type UserController struct {
+	uc     *usecase.UserUsecase
+	config *config.Config
+}
+
+func NewUserController(uc *usecase.UserUsecase, config *config.Config) *UserController {
+	return &UserController{
+		uc:     uc,
+		config: config,
 	}
-	c.JSON(200, user)
+}
+
+func (uc *UserController) HandlerUser(c *gin.Context) {
+	id := c.Param("id")
+
+	fmt.Printf("id: %v\n", id)
 }
