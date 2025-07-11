@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"gorm.io/driver/postgres"
+	"gorm.io/gen"
+	"gorm.io/gorm"
 )
 
 // @title           blog API
@@ -24,6 +26,23 @@ import (
 // @externalDocs.url          https://blog.io/resources/open-api/
 
 func main() {
-	router := gin.Default()
-	router.Run(":8080")
+	// router := gin.Default()
+	// router.Run(":8080")
+
+	db, err := gorm.Open(postgres.Open("host=localhost user=admin password=123456 dbname=blog port=5432 sslmode=disable TimeZone=Asia/Shanghai"))
+	if err != nil {
+		panic(err)
+	}
+
+	g := gen.NewGenerator(gen.Config{
+		OutPath:      "./dao",
+		Mode:         gen.WithDefaultQuery | gen.WithQueryInterface,
+		WithUnitTest: false,
+	})
+
+	g.UseDB(db)
+
+	g.GenerateAllTable() // 或 g.GenerateModel("users", "posts")
+
+	g.Execute()
 }
