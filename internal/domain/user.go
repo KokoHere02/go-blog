@@ -3,7 +3,6 @@ package domain
 import (
 	"time"
 
-	"github.com/KokoHere02/go-blog/internal/db"
 	"gorm.io/gorm"
 )
 
@@ -33,9 +32,9 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
-func NewUserRepository() *UserRepository {
+func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{
-		db: db.NewDB(),
+		db: db,
 	}
 }
 

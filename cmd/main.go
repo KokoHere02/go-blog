@@ -1,9 +1,12 @@
 package main
 
 import (
-	"gorm.io/driver/postgres"
-	"gorm.io/gen"
-	"gorm.io/gorm"
+	"time"
+
+	"github.com/KokoHere02/go-blog/config"
+	"github.com/KokoHere02/go-blog/internal/db"
+	"github.com/KokoHere02/go-blog/internal/router"
+	"github.com/gin-gonic/gin"
 )
 
 // @title           blog API
@@ -26,23 +29,26 @@ import (
 // @externalDocs.url          https://blog.io/resources/open-api/
 
 func main() {
-	// router := gin.Default()
-	// router.Run(":8080")
+	route := gin.Default()
+	conf := config.NewConfig()
+	db := db.NewDB(conf)
+	router.Setup(conf, time.Second*10, db, route)
+	route.Run(":8080")
 
-	db, err := gorm.Open(postgres.Open("host=localhost user=admin password=123456 dbname=blog port=5432 sslmode=disable TimeZone=Asia/Shanghai"))
-	if err != nil {
-		panic(err)
-	}
+	// db, err := gorm.Open(postgres.Open("host=localhost user=admin password=123456 dbname=blog port=5432 sslmode=disable TimeZone=Asia/Shanghai"))
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	g := gen.NewGenerator(gen.Config{
-		OutPath:      "./dao",
-		Mode:         gen.WithDefaultQuery | gen.WithQueryInterface,
-		WithUnitTest: false,
-	})
+	// g := gen.NewGenerator(gen.Config{
+	// 	OutPath:      "./dao",
+	// 	Mode:         gen.WithDefaultQuery | gen.WithQueryInterface,
+	// 	WithUnitTest: false,
+	// })
 
-	g.UseDB(db)
+	// g.UseDB(db)
 
-	g.GenerateAllTable() // 或 g.GenerateModel("users", "posts")
+	// g.GenerateAllTable() // 或 g.GenerateModel("users", "posts")
 
-	g.Execute()
+	// g.Execute()
 }

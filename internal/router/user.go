@@ -12,7 +12,7 @@ import (
 )
 
 func NewUserRouter(config *config.Config, timeout time.Duration, db *gorm.DB, gin *gin.RouterGroup) {
-	ur := domain.NewUserRepository()
+	ur := domain.NewUserRepository(db)
 	uu := usecase.NewUserUsecase(ur, time.Second*5)
 	uc := handler.NewUserController(uu, config)
 	gin.GET("/:id", uc.HandlerUser)

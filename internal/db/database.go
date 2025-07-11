@@ -10,8 +10,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-func NewDB() *gorm.DB {
-	cfg := config.NewConfig()
+func NewDB(cfg *config.Config) *gorm.DB {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=Asia/Shanghai",
 		cfg.Database.Host,
