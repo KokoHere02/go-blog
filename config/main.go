@@ -31,6 +31,7 @@ func NewConfig() *Config {
 	viper.AddConfigPath(".")     // 当前目录
 	viper.AddConfigPath("../..") // 适用于在 internal/db 测试运行时
 	viper.AddConfigPath("../../config")
+	viper.AddConfigPath("config/")
 
 	err := viper.ReadInConfig()
 	if err != nil {
