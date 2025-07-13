@@ -15,5 +15,5 @@ func NewUserRouter(config *config.Config, timeout time.Duration, db *gorm.DB, gi
 	ur := domain.NewUserRepository(db)
 	uu := usecase.NewUserUsecase(ur, time.Second*5)
 	uc := handler.NewUserController(uu, config)
-	gin.GET("/:id", uc.HandlerUser)
+	gin.GET("/:id", uc.QueryUser)
 }

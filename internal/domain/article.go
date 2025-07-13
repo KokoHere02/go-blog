@@ -6,6 +6,8 @@ package domain
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 const TableNameArticle = "article"
@@ -30,4 +32,23 @@ type Article struct {
 // TableName Article's table name
 func (*Article) TableName() string {
 	return TableNameArticle
+}
+
+type ArticleRepository struct {
+	db *gorm.DB
+}
+
+func NewArticleRepository(db *gorm.DB) *ArticleRepository {
+	return &ArticleRepository{
+		db: db,
+	}
+}
+
+func (article *ArticleRepository) GetArticleById(id string) (*Article, error) {
+	var articleDo Article
+	err := article.db.First(&articleDo, "id = ?", id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &articleDo, nil
 }

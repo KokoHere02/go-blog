@@ -11,4 +11,6 @@ import (
 func Setup(config *config.Config, timeout time.Duration, db *gorm.DB, gin *gin.Engine) {
 	publicGroup := gin.Group("/api/user")
 	NewUserRouter(config, timeout, db, publicGroup)
+
+	gin.Group("/api/article")
 }
