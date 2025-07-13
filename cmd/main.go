@@ -6,6 +6,7 @@ import (
 	"github.com/KokoHere02/go-blog/config"
 	"github.com/KokoHere02/go-blog/internal/db"
 	"github.com/KokoHere02/go-blog/internal/router"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,6 +31,16 @@ import (
 
 func main() {
 	route := gin.Default()
+	route.Use()
+	route.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:5173"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	conf := config.NewConfig()
 	db := db.NewDB(conf)
 	router.Setup(conf, time.Second*10, db, route)

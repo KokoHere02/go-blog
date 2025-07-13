@@ -38,7 +38,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	}
 }
 
-func (user *UserRepository) GetUserById(id string) (*User, error) {
+func (user *UserRepository) GetUserById(id int64) (*User, error) {
 	userDb := user.db
 	var userDo User
 	err := userDb.First(&userDo, "id = ?", id).Error

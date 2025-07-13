@@ -18,6 +18,6 @@ func NewUserUsecase(userRepo *domain.UserRepository, timeout time.Duration) *Use
 	}
 }
 
-func (u *UserUsecase) GetUserById(id string) (*domain.User, error) {
+func (u *UserUsecase) GetUserById(id int64) (*domain.User, error) {
 	return u.userRepo.GetUserById(id)
 }
